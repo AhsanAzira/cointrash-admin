@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoinTrash — Operator Panel</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo.png" alt="CoinTrash" style="width:36px; height:36px; border-radius:8px; object-fit:contain;" />
+      <span class="logo-text">CoinTrash</span>
+      <span class="logo-badge">Operator</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="input">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Input Sampah
+      </a>
+      <a href="#" class="nav-item" data-page="history">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Riwayat Transaksi
+      </a>
+      <a href="#" class="nav-item" data-page="stats">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Statistik Stand
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="operator-info">
+        <div class="operator-avatar">OP</div>
+        <div>
+          <p class="operator-name">Stand #001</p>
+          <p class="operator-loc">Banjarbaru</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- PAGE: INPUT SAMPAH -->
+    <section class="page active" id="page-input">
+      <div class="page-header">
+        <div>
+          <h1>Input Data Sampah</h1>
+          <p class="page-sub">Timbang & proses transaksi pengguna</p>
+        </div>
+        <div class="header-meta">
+          <span id="live-time" class="live-time"></span>
+        </div>
+      </div>
+
+      <div class="form-grid">
+
+        <!-- LEFT: Form Input -->
+        <div class="card form-card">
+          <div class="card-header">
+            <h2>Data Pengguna & Sampah</h2>
+          </div>
+
+          <form id="trash-form">
+
+            <!-- User ID -->
+            <div class="field-group">
+              <label for="user-id">ID Pengguna / Nomor HP</label>
+              <div class="input-with-btn">
+                <input type="text" id="user-id" placeholder="Contoh: 0812-3456-7890" required />
+                <button type="button" class="btn-scan" onclick="simulateScan()">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                  Scan QR
+                </button>
+              </div>
+              <div class="user-preview hidden" id="user-preview">
+                <div class="user-chip">
+                  <span class="chip-dot"></span>
+                  <span id="user-display">—</span>
+                  <span class="chip-tag">Terverifikasi</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Trash Items -->
+            <div class="field-group">
+              <label>Jenis & Berat Sampah</label>
+              <div id="trash-items">
+                <!-- Items inserted by JS -->
+              </div>
+              <button type="button" class="btn-add" onclick="addTrashItem()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Tambah Jenis Sampah
+              </button>
+            </div>
+
+            <!-- Condition -->
+            <div class="field-group">
+              <label>Kondisi Sampah</label>
+              <div class="radio-group">
+                <label class="radio-opt">
+                  <input type="radio" name="condition" value="bersih" checked />
+                  <span class="radio-label">
+                    <span class="radio-dot"></span>
+                    Bersih
+                  </span>
+                </label>
+                <label class="radio-opt">
+                  <input type="radio" name="condition" value="kotor" />
+                  <span class="radio-label">
+                    <span class="radio-dot"></span>
+                    Kotor
+                  </span>
+                </label>
+                <label class="radio-opt">
+                  <input type="radio" name="condition" value="campuran" />
+                  <span class="radio-label">
+                    <span class="radio-dot"></span>
+                    Campuran
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="field-group">
+              <label for="notes">Catatan Operator (opsional)</label>
+              <textarea id="notes" placeholder="Tambahkan keterangan tambahan jika diperlukan..." rows="2"></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              Konfirmasi & Kirim Koin
+            </button>
+
+          </form>
+        </div>
+
+        <!-- RIGHT: Summary + Price List -->
+        <div class="right-col">
+
+          <!-- Summary Card -->
+          <div class="card summary-card">
+            <div class="card-header">
+              <h2>Ringkasan Transaksi</h2>
+            </div>
+            <div class="summary-body">
+              <div class="summary-row">
+                <span>Total Berat</span>
+                <strong id="total-weight">0 kg</strong>
+              </div>
+              <div class="summary-row">
+                <span>Jumlah Jenis</span>
+                <strong id="total-types">0 jenis</strong>
+              </div>
+              <div class="summary-divider"></div>
+              <div class="summary-row total-coin-row">
+                <span>Total Koin</span>
+                <strong id="total-coins" class="coin-value">0 <span class="coin-unit">koin</span></strong>
+              </div>
+              <div class="coin-equiv">
+                ≈ Rp <span id="total-rupiah">0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Price List -->
+          <div class="card price-card">
+            <div class="card-header">
+              <h2>Daftar Harga Sampah</h2>
+            </div>
+            <div class="price-list" id="price-list">
+              <!-- inserted by JS -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE: HISTORY -->
+    <section class="page" id="page-history">
+      <div class="page-header">
+        <div>
+          <h1>Riwayat Transaksi</h1>
+          <p class="page-sub">Semua transaksi yang telah diproses hari ini</p>
+        </div>
+        <button class="btn-export" onclick="exportCSV()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="data-table" id="history-table">
+            <thead>
+              <tr>
+                <th>Waktu</th>
+                <th>ID Pengguna</th>
+                <th>Jenis Sampah</th>
+                <th>Total Berat</th>
+                <th>Total Koin</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="history-body">
+              <tr class="empty-row">
+                <td colspan="6">Belum ada transaksi hari ini</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE: STATS -->
+    <section class="page" id="page-stats">
+      <div class="page-header">
+        <div>
+          <h1>Statistik Stand</h1>
+          <p class="page-sub">Performa stand hari ini</p>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <p class="stat-label">Total Transaksi</p>
+          <p class="stat-value" id="stat-total-tx">0</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Total Sampah</p>
+          <p class="stat-value" id="stat-total-kg">0 kg</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Koin Dikeluarkan</p>
+          <p class="stat-value" id="stat-total-coins-out">0</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-label">Nilai Setara</p>
+          <p class="stat-value" id="stat-total-rp">Rp 0</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:1.5rem">
+        <div class="card-header"><h2>Breakdown per Jenis Sampah</h2></div>
+        <div id="breakdown-list" class="breakdown-list">
+          <p class="empty-text">Belum ada data hari ini.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SUCCESS MODAL -->
+  <div class="modal-overlay hidden" id="success-modal">
+    <div class="modal">
+      <div class="modal-icon">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Transaksi Berhasil!</h2>
+      <p id="modal-summary">—</p>
+      <div class="modal-coin">
+        <span id="modal-coins">0</span>
+        <span class="modal-coin-label">koin dikirim ke pengguna</span>
+      </div>
+      <button class="btn-modal-close" onclick="closeModal()">Transaksi Berikutnya</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
