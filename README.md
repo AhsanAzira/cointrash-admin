@@ -1,75 +1,85 @@
-# CoinTrash — Operator Admin Panel
+# 🖥️ CoinTrash Admin & Central API
 
-Aplikasi web ringan untuk operator stand CoinTrash dalam mengeksekusi **Langkah 6 & 7** alur penggunaan:
-- **Langkah 6**: Serahkan & Timbang — operator menerima dan menimbang sampah pengguna
-- **Langkah 7**: Proses Operator (Wizard of Oz) — operator menginput data secara manual ke sistem
+> **Pusat kendali operasional dan Backend API untuk ekosistem CoinTrash.** Dashboard web ini dirancang khusus untuk operator stand agar dapat memproses transaksi setoran sampah secara real-time dan menyediakan data bagi aplikasi mobile.
 
----
-
-## Cara Menjalankan
-
-1. Buka folder project ini di VS Code
-2. Install ekstensi **Live Server** (oleh Ritwick Dey) jika belum ada
-3. Klik kanan `index.html` → **Open with Live Server**
-4. Atau cukup buka file `index.html` langsung di browser
-
-Tidak perlu Node.js, npm, atau framework apapun. Murni HTML + CSS + JavaScript.
+![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 
 ---
 
-## Struktur File
+## 📱 Tampilan Dashboard Operator
+*(Catatan: Unggah screenshot dashboard kamu ke folder assets/ dan perbarui link di bawah ini)*
 
-```
-cointrash-admin/
-├── index.html   → Struktur halaman utama
-├── style.css    → Semua styling
-├── app.js       → Logika aplikasi
-└── README.md    → Dokumentasi ini
-```
+<p align="center">
+  <img src="image_040402.png" width="800" alt="Dashboard CoinTrash Admin">
+</p>
 
 ---
 
-## Fitur
+## 🚀 Fitur Utama
 
-### 1. Input Sampah (Halaman Utama)
-- **Scan QR / Input ID Pengguna** — verifikasi pengguna secara cepat
-- **Multi-jenis sampah** — tambah banyak jenis sekaligus dengan tombol "+"
-- **Kalkulasi otomatis** — koin dihitung real-time saat berat diinput
-- **Kondisi sampah** — bersih / kotor (diskon 20%) / campuran (diskon 10%)
-- **Catatan operator** — field opsional untuk keterangan tambahan
-- **Konfirmasi pop-up** — modal sukses muncul setelah transaksi berhasil
+Dashboard Admin ini memiliki fungsi krusial dalam siklus bisnis CoinTrash:
 
-### 2. Riwayat Transaksi
-- Tampilan semua transaksi yang telah diproses
-- **Export CSV** — download data transaksi ke file spreadsheet
-
-### 3. Statistik Stand
-- Ringkasan total transaksi, berat, dan koin yang dikeluarkan
-- Grafik bar breakdown per jenis sampah
+* **Verifikasi Pengguna Dinamis:** Operator dapat mencari dan memverifikasi data pengguna berdasarkan Nama, Email, atau Nomor HP sebelum memulai transaksi.
+* **Input Data Sampah Digital:** Memungkinkan operator menginput jenis sampah (Plastik, Logam, Kertas, dll.) dan beratnya secara presisi.
+* **Kalkulasi Koin Otomatis:** Sistem secara otomatis menghitung jumlah koin yang didapatkan pengguna berdasarkan harga per kg yang tersimpan di database.
+* **Manajemen Saldo (Wallets):** Setiap transaksi yang dikonfirmasi akan otomatis memperbarui saldo di tabel `wallets` pengguna di MySQL.
+* **Central API Gateway:** Menyediakan endpoint JSON untuk mendukung fitur Login, Registrasi, Sinkronisasi Riwayat, dan Pembaruan Harga pada aplikasi Mobile.
 
 ---
 
-## Daftar Harga Sampah (Default)
+## ⚙️ Arsitektur API
 
-| Jenis | Koin/kg |
-|-------|---------|
-| Botol Plastik (PET) | 150 |
-| Kardus / Karton | 100 |
-| Kertas HVS / Koran | 80 |
-| Kaleng Aluminium | 200 |
-| Botol Kaca | 120 |
-| Elektronik Bekas | 300 |
-| Minyak Jelantah | 250 |
-| Besi / Logam Lain | 180 |
+Sistem ini menggunakan **Action-Based HTTP API** dengan parameter `?action=...` untuk memproses berbagai permintaan:
 
-> **1 Koin = Rp 10**
-
-Untuk mengubah harga, edit array `TRASH_TYPES` di file `app.js`.
+| Action | Metode | Deskripsi |
+| :--- | :--- | :--- |
+| `verify_user` | GET | Mencari user berdasarkan Email/Nama/HP untuk verifikasi operator. |
+| `save_transaction` | POST | Menyimpan data setoran sampah dan mengupdate saldo dompet. |
+| `login` | POST | Validasi akun pengguna untuk aplikasi mobile. |
+| `get_prices` | GET | Mengambil daftar harga sampah terbaru dari database. |
+| `get_history` | GET | Mengambil riwayat transaksi (mendukung filter per user). |
 
 ---
 
-## Teknologi
+## 🛠️ Panduan Instalasi (Server Lokal)
 
-- HTML5, CSS3, Vanilla JavaScript (ES6+)
-- Font: Syne (judul) + DM Sans (body) dari Google Fonts
-- Data disimpan sementara di `localStorage` browser
+### Prasyarat:
+* [XAMPP](https://www.apachefriends.org/) (Apache & MySQL).
+* Browser web modern (Chrome/Edge).
+
+### Langkah-langkah:
+1.  **Clone Repositori:**
+    ```bash
+    git clone [https://github.com/AhsanAzira/cointrash-admin.git](https://github.com/AhsanAzira/cointrash-admin.git)
+    ```
+
+2.  **Konfigurasi Folder XAMPP:**
+    * Pindahkan seluruh isi folder ini ke `C:\xampp\htdocs\cointrash-admin\`.
+    * **Penting:** Pastikan nama folder adalah `cointrash-admin` agar sinkron dengan aplikasi mobile.
+
+3.  **Setup Database:**
+    * Buka `phpMyAdmin` dan buat database baru bernama `cointrash`.
+    * Import file `cointrash.sql` yang tersedia di repositori ini.
+    * Gunakan perintah SQL berikut untuk menambahkan data harga awal:
+        ```sql
+        INSERT INTO waste_types (name, price_per_kg) VALUES ('Plastik PET', 3500), ('Kardus', 2000), ('Aluminium', 8000);
+        ```
+
+4.  **Akses Dashboard:**
+    * Jalankan modul Apache dan MySQL di XAMPP.
+    * Buka alamat `http://localhost/cointrash-admin/index.html` di browser kamu.
+
+---
+
+## 👥 Tim Pengembang
+
+Proyek ini dikembangkan oleh **Kelompok 3 - Software Startup Business (2026)**:
+* **Ahsan Azira** - Lead Developer (Backend & API)
+* *(Tambahkan nama anggota kelompok lainnya di sini)*
+
+---
+
+*© 2026 CoinTrash Admin System. Dibuat sebagai solusi pengelolaan sampah digital yang efisien.*
