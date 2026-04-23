@@ -9,15 +9,6 @@
 
 ---
 
-## 📱 Tampilan Dashboard Operator
-*(Catatan: Unggah screenshot dashboard kamu ke folder assets/ dan perbarui link di bawah ini)*
-
-<p align="center">
-  <img src="image_040402.png" width="800" alt="Dashboard CoinTrash Admin">
-</p>
-
----
-
 ## 🚀 Fitur Utama
 
 Dashboard Admin ini memiliki fungsi krusial dalam siklus bisnis CoinTrash:
