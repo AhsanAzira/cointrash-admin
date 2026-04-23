@@ -65,12 +65,4 @@ Sistem ini menggunakan **Action-Based HTTP API** dengan parameter `?action=...` 
 
 ---
 
-## 👥 Tim Pengembang
-
-Proyek ini dikembangkan oleh **Kelompok 3 - Software Startup Business (2026)**:
-* **Ahsan Azira** - Lead Developer (Backend & API)
-* *(Tambahkan nama anggota kelompok lainnya di sini)*
-
----
-
 *© 2026 CoinTrash Admin System. Dibuat sebagai solusi pengelolaan sampah digital yang efisien.*
